@@ -5,7 +5,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.materialIcon
 import androidx.compose.material3.BottomAppBar
@@ -16,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,8 +56,10 @@ fun InstagramApplication() {
 
     Scaffold(
         bottomBar = { BottomNavigationbar(navController) }
-    ) {
-        InstagramNavigationGraph(navHostController = navController)
+    ) {innerPadding ->
+        Box(modifier = Modifier.padding(innerPadding)) {
+            InstagramNavigationGraph(navHostController = navController)
+        }
     }
 }
 
@@ -77,12 +85,14 @@ fun BottomNavigationbar(navController: NavHostController) {
                 icon = {
                     Icon(
                         painter = painterResource(id = screen.icon), contentDescription = "icons",
-                        modifier = Modifier.size(22.dp)
+                        modifier = Modifier
+                            .size(18.dp)
+                            .background(Color.White)
                     )
                 },
                 modifier = Modifier
                     .background(color = androidx.compose.ui.graphics.Color.White)
-                    .fillMaxHeight()
+                    .fillMaxWidth()
             )
         }
     }
