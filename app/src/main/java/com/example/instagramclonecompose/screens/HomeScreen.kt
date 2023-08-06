@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,10 +21,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ComposableOpenTarget
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
@@ -32,6 +35,7 @@ import androidx.compose.ui.Alignment.Companion.TopEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -80,63 +84,55 @@ fun HomeScreen() {
     }
 }
 
+@Composable
 fun getListOfSampleStories(): List<Stories> = listOf(
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image),
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image),
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image),
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image),
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image),
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image),
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image),
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image),
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image),
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image),
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image),
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image),
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image),
-    Stories(userName = "Instagram", userProfile = R.drawable.sample_story_image)
+    Stories(userName = "someuser3", userProfile = R.drawable.story_1),
+    Stories(userName = "someuser4", userProfile = R.drawable.story_2),
+    Stories(userName = "someuser5", userProfile = R.drawable.story_7),
+    Stories(userName = "someuser6", userProfile = R.drawable.story_4),
+    Stories(userName = "someuser7", userProfile = R.drawable.story_5),
+    Stories(userName = "someuser8", userProfile = R.drawable.sample_story_image),
+    Stories(userName = "someuser9", userProfile = R.drawable.story_3),
+    Stories(userName = "someuser10", userProfile = R.drawable.story_1),
+    Stories(userName = "someuser11", userProfile = R.drawable.sample_story_image),
+    Stories(userName = "someuser12", userProfile = R.drawable.sample_story_image)
 )
 
-val sampleText: String =  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  ";
 
 fun getPostListSampleData(): List<Post> = listOf(
 
     Post(
-        profile = R.drawable.sample_story_image,
-        userName = "Rock_the_bock",
-        postPhotoList = listOf(R.drawable.post_1),
-        description = sampleText,
+        profile = R.drawable.story_6,
+        userName = "someuser69",
+        postPhotoList = listOf(
+            R.drawable.post_1,
+            R.drawable.main_post_1,
+            R.drawable.story_3
+        ),
+        description = "Some random description",
         postLikedBy = listOf(
-            User(profile = R.drawable.sample_story_image, userName = "john_the_born"),
-            User(profile = R.drawable.sample_story_image, userName = "seth_the_beth"),
+            User(profile = R.drawable.story_7, userName = "someuser5"),
+            User(profile = R.drawable.story_2, userName = "someuser8"),
+            User(profile = R.drawable.story_4, userName = "someuser0"),
+            User(profile = R.drawable.story_5, userName = "someuser1"),
+            User(profile = R.drawable.story_7, userName = "someuser2"),
+            User(profile = R.drawable.story_1, userName = "someuser3"),
+            User(profile = R.drawable.sample_story_image, userName = "someuser4"),
         )
     ),
     Post(
-        profile = R.drawable.sample_story_image,
-        userName = "KevinOwens",
+        profile = R.drawable.story_5,
+        userName = "someuser99",
         postPhotoList = listOf(
-            R.drawable.post_1,
-            R.drawable.post_1
+            R.drawable.story_3,
+            R.drawable.story_7,
+            R.drawable.story_4
         ),
-        description = "some thing brooooooo",
+        description = "Some random description",
         postLikedBy = listOf(
-            User(profile = R.drawable.sample_story_image, userName = "sami"),
-            User(profile = R.drawable.sample_story_image, userName = "dean"),
+            User(profile = R.drawable.story_7, userName = "someuser4"),
         )
     ),
-    Post(
-        profile = R.drawable.sample_story_image,
-        userName = "KevinOwens",
-        postPhotoList = listOf(
-            R.drawable.post_1,
-            R.drawable.post_1
-        ),
-        description = "some thing brooooooo",
-        postLikedBy = listOf(
-            User(profile = R.drawable.sample_story_image, userName = "sami"),
-            User(profile = R.drawable.sample_story_image, userName = "dean"),
-        )
-    )
 )
 
 @Composable
@@ -197,9 +193,9 @@ fun StoryItem(story: Stories) {
         Image(
             painter = painterResource(id = story.userProfile),
             contentDescription = "story_image",
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(60.dp)
-                .clip(CircleShape)
                 .border(
                     width = 2.dp,
                     brush = Brush.linearGradient(
@@ -210,8 +206,8 @@ fun StoryItem(story: Stories) {
                     ),
                     shape = CircleShape
                 )
-                .padding(4.dp),
-            contentScale = ContentScale.Crop
+                .padding(4.dp)
+                .clip(CircleShape),
         )
 
         Spacer(
@@ -252,7 +248,7 @@ fun PostItem(post: Post) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 12.dp)
+            .padding(bottom = 10.dp)
     ) {
 
         Box(
@@ -271,7 +267,7 @@ fun PostItem(post: Post) {
                     ),
                     contentDescription = "profile_icon",
                     modifier = Modifier
-                        .size(25.dp)
+                        .size(28.dp)
                         .clip(CircleShape),
                     contentScale = ContentScale.Crop
                 )
@@ -281,6 +277,7 @@ fun PostItem(post: Post) {
                 Text(
                     text = post.userName,
                     fontSize = 12.sp,
+                    fontWeight = FontWeight.Bold,
                     maxLines = 1,
                     modifier = Modifier
                         .width(120.dp),
@@ -304,7 +301,7 @@ fun PostItem(post: Post) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp)
+                .padding(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 8.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -316,21 +313,22 @@ fun PostItem(post: Post) {
                     ),
                     contentDescription = "like",
                     modifier = Modifier
-                        .size(28.dp)
+                        .size(25.dp)
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Icon(
                     painter = painterResource(id = R.drawable.comment),
                     contentDescription = "comment",
                     modifier = Modifier
-                        .size(28.dp)
+                        .size(25.dp)
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Icon(
                     painter = painterResource(id = R.drawable.share),
                     contentDescription = "share",
                     modifier = Modifier
-                        .size(28.dp)
+                        .padding(top = 1.dp)
+                        .size(24.dp)
                 )
             }
 
@@ -339,6 +337,7 @@ fun PostItem(post: Post) {
                     pagerState = pagerState,
                     activeColor = Color("#32B5FF".toColorInt()),
                     inactiveColor = Color("#C4C4C4".toColorInt()),
+                    indicatorWidth = 6.dp,
                     modifier = Modifier
                         .align(Alignment.Center)
                 )
@@ -348,7 +347,7 @@ fun PostItem(post: Post) {
                 painter = painterResource(id = R.drawable.bookmark),
                 contentDescription = "save post",
                 modifier = Modifier
-                    .size(28.dp)
+                    .size(22.dp)
                     .align(Alignment.CenterEnd)
             )
 
@@ -370,20 +369,22 @@ fun PostComments(post: Post) {
             .padding(5.dp)
     ) {
         Text(
-            text = "View all 169 comments",
+            text = "View all 5 comments",
             fontWeight = FontWeight.Light,
-            fontSize = 12.sp
+            fontSize = 12.sp,
+            modifier = Modifier
+                .padding(start = 5.dp, bottom = 2.dp)
         )
 
         Row(
             modifier = Modifier
-                .padding(2.dp)
         ) {
             Image(
                 painter = painterResource(id = post.profile),
                 contentDescription = "story_image",
                 modifier = Modifier
-                    .size(28.dp)
+                    .padding(start = 5.dp)
+                    .size(24.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
@@ -393,7 +394,7 @@ fun PostComments(post: Post) {
                 fontWeight = FontWeight.Light,
                 fontSize = 12.sp,
                 modifier = Modifier
-                    .padding(horizontal = 5.dp)
+                    .padding(start = 8.dp)
                     .align(CenterVertically)
             )
         }
@@ -403,7 +404,7 @@ fun PostComments(post: Post) {
             fontWeight = FontWeight.Light,
             fontSize = 12.sp,
             modifier = Modifier
-                .padding(horizontal = 5.dp)
+                .padding(start = 5.dp, top = 2.dp)
         )
     }
 }
@@ -416,15 +417,18 @@ fun PostDescription(post: Post) {
             append("${post.userName} ")
         }
         append(post.description)
+        withStyle(style = SpanStyle(Color.Black, fontWeight = FontWeight.Light)) {
+            append("...more")
+        }
     }
 
     Text(
         text = annotatedString,
         fontSize = 12.sp,
-        maxLines = 2,
+        maxLines = 1,
         overflow = TextOverflow.Ellipsis,
         modifier = Modifier
-            .padding(end = 28.dp)
+            .padding(start = 10.dp, bottom = 2.dp)
     )
 
 }
@@ -437,28 +441,45 @@ fun PostLikesDetails(likedBy: List<User>) {
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .padding(5.dp)
+                .padding(start = 4.dp)
         )
     } else if (likedBy.size == 1) {
+
         Text(
             text = " liked by ${likedBy[0].userName}",
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .padding(5.dp)
+                .padding(start = 4.dp)
         )
     } else {
+
+        val annotatedString = buildAnnotatedString {
+            withStyle(style = SpanStyle(Color.Black, fontWeight = FontWeight.Light)) {
+                append("Liked by")
+            }
+            withStyle(style = SpanStyle(Color.Black, fontWeight = FontWeight.Bold)) {
+                append(" ${likedBy[0].userName} ")
+            }
+            withStyle(style = SpanStyle(Color.Black, fontWeight = FontWeight.Light)) {
+                append("and ")
+            }
+            withStyle(style = SpanStyle(Color.Black, fontWeight = FontWeight.Bold)) {
+                append("${likedBy.size - 1} others")
+            }
+        }
+
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .padding(4.dp)
+                .padding(start = 10.dp, bottom = 5.dp)
         ) {
             showSomeUsersWhoLiked(likedBy)
-            Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+            Spacer(modifier = Modifier.padding(horizontal = 3.dp))
             Text(
-                text = "liked by ${likedBy[0].userName} and ${likedBy.size - 1} others",
+                text = annotatedString,
                 fontWeight = FontWeight.Bold,
-                fontSize = 12.sp
+                fontSize = 14.sp
             )
         }
     }
@@ -474,7 +495,7 @@ fun showSomeUsersWhoLiked(likedBy: List<User>) {
                 painter = painterResource(id = likedBy.profile),
                 contentDescription = "story_image",
                 modifier = Modifier
-                    .size(28.dp)
+                    .size(20.dp)
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
